@@ -1,4 +1,5 @@
 const QUANTITY_PINS = 3;
+
 import { createFormTemplate } from "./view/trip-form-template.js";
 import { createTripInfoTemplate } from "./view/info-trip-template.js";
 import { createTripCostTemplate } from "./view/trip-cost-template.js";
