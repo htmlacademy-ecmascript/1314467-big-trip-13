@@ -1,7 +1,9 @@
 # Проект «Большое путешествие» [![Build status][travis-image]][travis-url]
 
 * Студент: [Дмитрий Слепченко](https://up.htmlacademy.ru/ecmascript/13/user/1314467).
-* Наставник: `Артем Рудов` (https://htmlacademy.ru/profile/artrudov).
+
+* Наставник: [`Артем Рудов`] (https://htmlacademy.ru/profile/artrudov).
+
 
 ---
 
