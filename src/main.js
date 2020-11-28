@@ -13,7 +13,6 @@ const render = (container, template, place) => {
 };
 
 const points = new Array(QUANTITY_PINS).fill().map(generateTripPoint);
-
 const tripElement = document.querySelector(`.trip-main`);
 render(tripElement, createTripInfoTemplate(points), `afterbegin`);
 

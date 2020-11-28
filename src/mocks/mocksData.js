@@ -1,6 +1,7 @@
+import dayjs from "dayjs";
 const MIN_PRICE = 1;
 const MAX_PRICE = 1000;
-const MAX_DESCRIPTIONS = 5;
+const MAX_DESCRIPTIONS = 7;
 
 const getRandomInteger = (a = 0, b = 1) => {
   const lower = Math.min(a, b);
@@ -67,25 +68,12 @@ const generateTripType = () => {
   return tripTypes[randomIndex];
 
 };
+const cityData = [`Tel-Aviv`, `Minsk`, `Rome`, `Madrid`, `Moskow`, `Baku`, `New York`, `London`];
 
 const generateDestination = () => {
-  const cityData = [`Tel-Aviv`, `Minsk`, `Rome`, `Madrid`, `Moskow`, `Baku`, `New York`, `London`];
   const randomIndex = getRandomInteger(0, cityData.length - 1);
   return cityData[randomIndex];
 
-};
-
-const generateStartTime = () => {
-  const timeValue = [`12:00`, `12:30`, `13:00`, `13:30`, `14:00`, `14:30`];
-  const randomIndex = getRandomInteger(0, timeValue.length - 1);
-  return timeValue[randomIndex];
-};
-
-
-const generateEndTime = () => {
-  const timeValue = [`15:30`, `16:00`, `16:30`, `17:00`, `17:30`, `18:00`];
-  const randomIndex = getRandomInteger(0, timeValue.length - 1);
-  return timeValue[randomIndex];
 };
 
 const getRandomPhotos = (count) => {
@@ -97,21 +85,28 @@ const getRandomPhotos = (count) => {
 
   return result;
 };
+const calculateDifferenceTime = (begin, end) => {
+  const hours = end.diff(begin, `hour`) % 24;
+  const minutes = end.diff(begin, `minute`) % 60;
+  return `${hours > 0 ? `${hours}H ${minutes}M` : `${minutes}M` }`;
+};
 
-// const getDurationTime = () => {
-//   const diff = generateEndTime() - generateStartTime();
+const generateTime = () => {
+  const daysGap = getRandomInteger(-7, 7);
+  const hoursGap = getRandomInteger(0, 48);
+  const minutesGap = getRandomInteger(0, 60);
+  const days = dayjs().add(daysGap, `day`);
+  const beginTime = dayjs().add(hoursGap, `hour`);
+  const endTime = beginTime.add(hoursGap, `hour`).add(minutesGap, `minute`);
 
-//   let hours;
-//   let minutes;
+  return {
+    day: days,
+    begin: beginTime,
+    end: endTime,
+    difference: calculateDifferenceTime(beginTime, endTime),
+  };
+};
 
-//   let minutesDiff = diff / 60 / 1000;
-//   let hoursdDiff = diff / 3600 / 1000;
-
-//   hours = Math.floor(hoursdDiff);
-//   minutes = minutesDiff - 60 * hours;
-
-//   return `${hours > 0 ? `${hours}H` : ``} ${minutes}M`;
-// };
 
 const generatePrice = () => {
   return getRandomInteger(MIN_PRICE, MAX_PRICE);
@@ -127,7 +122,7 @@ const getDescriptions = () => {
     Phasellus eros mauris, condimentum sed nibh vitae, sodales efficitur ipsum.
     Sed blandit, eros vel aliquam faucibus, purus ex euismod diam, eu luctus nunc ante ut dui.
     Sed sed nisi sed augue convallis suscipit in sed felis. Aliquam erat volutpat.
-    Nunc fermentum tortor ac porta dapibus. In rutrum ac purus sit amet tempus`;
+    Nunc fermentum tortor ac porta dapibus. In rutrum ac purus sit amet tempus.`;
 
   const arrDescriptions = descriptions.split(`.`);
   let text = ``;
@@ -150,16 +145,27 @@ const renderServicesData = (counts) => {
   return result;
 };
 
+const getPhotos = () => {
+  const randomInteger = getRandomInteger(1, 10);
+
+  const photos = [];
+  for (let i = randomInteger; i--;) {
+    photos.push(`http://picsum.photos/248/152?r=${Math.random()}`);
+  }
+  return photos;
+};
 
 export const generateTripPoint = () => {
   return {
     tripType: generateTripType(),
     destination: generateDestination(),
-    startTime: generateStartTime(),
-    endTime: generateEndTime(),
+    time: generateTime(),
     price: generatePrice(),
     photos: getRandomPhotos(getRandomInteger(0, 7)),
-    offers: renderServicesData(getRandomInteger(0, 5))
+    offers: renderServicesData(getRandomInteger(0, 5)),
+    isFavorite: Boolean(getRandomInteger(0, 1)),
+    descriptions: getDescriptions(),
+    photo: getPhotos(),
   };
 
 

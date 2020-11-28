@@ -1,5 +1,12 @@
-export const createTripCostTemplate = () => {
+
+export const createTripCostTemplate = (points) => {
+  let total = 0;
+  for (const {price} of points) {
+    total += price;
+  }
+
+
   return `<p class="trip-info__cost">
-    Total: &euro;&nbsp;<span class="trip-info__cost-value">1230</span>
+    Total: &euro;&nbsp;<span class="trip-info__cost-value">${total}</span>
     </p>`;
 };
