@@ -68,9 +68,10 @@ const generateTripType = () => {
   return tripTypes[randomIndex];
 
 };
-const cityData = [`Tel-Aviv`, `Minsk`, `Rome`, `Madrid`, `Moskow`, `Baku`, `New York`, `London`];
+
 
 const generateDestination = () => {
+  const cityData = [`Tel-Aviv`, `Minsk`, `Rome`, `Madrid`, `Moskow`, `Baku`, `New York`, `London`];
   const randomIndex = getRandomInteger(0, cityData.length - 1);
   return cityData[randomIndex];
 
@@ -126,7 +127,7 @@ const getDescriptions = () => {
 
   const arrDescriptions = descriptions.split(`.`);
   let text = ``;
-  for (let i = 0; i < getRandomInteger(0, MAX_DESCRIPTIONS); i++) {
+  for (let i = 0; i < getRandomInteger(1, MAX_DESCRIPTIONS); i++) {
     text += arrDescriptions[getRandomInteger(0, arrDescriptions.length - 1)];
 
   }
