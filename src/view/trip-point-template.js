@@ -1,22 +1,13 @@
 import dayjs from "dayjs";
-const LABEL_OF_TYPES = {
-  'Taxi': ` to `,
-  'Bus': ` to `,
-  'Train': ` to `,
-  'Ship': ` to `,
-  'Transport': ` to `,
-  'Drive': ` to `,
-  'Flight': ` to `,
-  'Sightseeing': ` in `,
-  'Restaurant': ` in `,
-  'Check-in': ` in `
-};
+import {LABEL_OF_TYPES} from "../const.js";
 
 
 export const createPointTemplate = (point) => {
+
   const {tripType, destination, time, offers, price, isFavorite} = point;
+
   const createOffer = () => {
-    return offers.slice(0, 3).filter((el) => el.isChecked).map((it) => {
+    return offers.slice(0, 3).map((it) => {
       return `<li class="event__offer">
         <span class="event__offer-title">${it.title}</span>
         ${it.title ? `&plus;&euro;&nbsp;` : ``}
@@ -24,8 +15,8 @@ export const createPointTemplate = (point) => {
       </li>`;
     }).join(`\n`);
   };
-  const offerTemplate = createOffer();
 
+  const offerTemplate = createOffer();
   const isFavoriveClass = isFavorite ? `event__favorite-btn event__favorite-btn--active` : `event__favorite-btn`;
 
 

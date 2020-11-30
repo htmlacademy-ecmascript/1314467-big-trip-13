@@ -13,6 +13,7 @@ const render = (container, template, place) => {
 };
 
 const points = new Array(QUANTITY_PINS).fill().map(generateTripPoint);
+
 const tripElement = document.querySelector(`.trip-main`);
 render(tripElement, createTripInfoTemplate(points), `afterbegin`);
 
@@ -30,6 +31,6 @@ const eventsContainer = tripEvents.querySelector(`.trip-events__list`);
 render(eventsContainer, createFormTemplate(points[1]), `beforeend`);
 
 
-for (let k = 0; k < QUANTITY_PINS; k++) {
-  render(eventsContainer, createPointTemplate(points[k]), `beforeend`);
+for (let point of points) {
+  render(eventsContainer, createPointTemplate(point), `beforeend`);
 }
