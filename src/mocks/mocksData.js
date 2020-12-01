@@ -6,14 +6,11 @@ import {TRIP_TYPES, getRandomInteger, getRandomBoolean, CITY_DATA, PHOTO_DATA, H
 const generateTripType = () => {
   const randomIndex = getRandomInteger(0, TRIP_TYPES.length - 1);
   return TRIP_TYPES[randomIndex];
-
 };
-
 
 const generateDestination = () => {
   const randomIndex = getRandomInteger(0, CITY_DATA.length - 1);
   return CITY_DATA[randomIndex];
-
 };
 
 const getPhotoPath = () => `${PHOTO_DATA}${getRandomInteger(0, 10)}`;
@@ -21,7 +18,6 @@ const getPhotoPath = () => `${PHOTO_DATA}${getRandomInteger(0, 10)}`;
 const getRandomPhotos = () => {
   const emptyPhotos = new Array(getRandomInteger(0, 10)).fill(undefined).map(getPhotoPath);
   return emptyPhotos.filter((item, index) => emptyPhotos.indexOf(item) === index);
-
 };
 
 const calculateDifferenceTime = (begin, end) => {
@@ -37,6 +33,7 @@ const generateTime = () => {
   const days = dayjs().add(daysGap, `day`);
   const beginTime = dayjs().add(hoursGap, `hour`);
   const endTime = beginTime.add(hoursGap, `hour`).add(minutesGap, `minute`);
+
   return {
     day: days,
     begin: beginTime,
@@ -47,7 +44,6 @@ const generateTime = () => {
 
 
 const generatePrice = () => getRandomInteger(MIN_PRICE, MAX_PRICE);
-
 
 const getDescriptions = () => {
   const arrDescription = `${DESCRIPTIONS_DATA}`.split(`.`);
@@ -79,6 +75,4 @@ export const generateTripPoint = () => {
     isFavorite: getRandomBoolean(),
     descriptions: getRandomDescriptions(),
   };
-
-
 };
