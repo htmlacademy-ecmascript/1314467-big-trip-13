@@ -1,4 +1,4 @@
-import dayjs from "dayjs";
+import {createElement} from "../utils.js";
 import {LABEL_OF_TYPES} from "../const.js";
 
 const createOffer = (offers) => {
@@ -13,13 +13,15 @@ const createOffer = (offers) => {
   }).join(`\n`);
 };
 
-export const createPointTemplate = ({tripType, destination, time, offers, price, isFavorite}) => {
+
+const createPointTemplate = (point) => {
+  const {tripType, destination, time, offers, price, isFavorite} = point;
   const offerTemplate = createOffer(offers);
   const isFavoriveClass = isFavorite ? `event__favorite-btn event__favorite-btn--active` : `event__favorite-btn`;
 
   return `<li class="trip-events__item">
             <div class="event">
-                <time class="event__date" datetime=${dayjs(time.day).format(`YYYY-MM-DD`)}>${dayjs(time.day).format(`MMM DD`)}</time>
+                <time class="event__date" datetime=${time.day.format(`YYYY-MM-DD`)}>${time.day.format(`MMM DD`)}</time>
               <div class="event__type">
                 <img class="event__type-icon" width="42" height="42" src="img/icons/${tripType.toLowerCase()}.png" alt="Event type icon">
               </div>
@@ -27,9 +29,9 @@ export const createPointTemplate = ({tripType, destination, time, offers, price,
               <h3 class="event__title">${tripType}${LABEL_OF_TYPES[tripType]}${destination}</h3>
               <div class="event__schedule">
                 <p class="event__time">
-                  <time class="event__start-time" datetime="${dayjs(time.begin).format(`HH:mm`)}">${dayjs(time.begin).format(`HH:mm`)}</time>
+                  <time class="event__start-time" datetime="${time.begin.format(`HH:mm`)}">${time.begin.format(`HH:mm`)}</time>
                   &mdash;
-                  <time class="event__end-time" datetime="${dayjs(time.end).format(`HH:mm`)}">${dayjs(time.end).format(`HH:mm`)}</time>
+                  <time class="event__end-time" datetime="${time.end.format(`HH:mm`)}">${time.end.format(`HH:mm`)}</time>
                 </p>
                 <p class="event__duration">${time.difference}</p>
               </div>
@@ -55,3 +57,25 @@ export const createPointTemplate = ({tripType, destination, time, offers, price,
             </div>
          </li>`;
 };
+
+export default class PointTrip {
+  constructor(point) {
+    this._data = point;
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createPointTemplate(this._data);
+  }
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}
