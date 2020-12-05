@@ -48,6 +48,11 @@ const renderTripPoint = (tripListElement, tripPoint) => {
     document.addEventListener(`keydown`, onEscDown);
   });
 
+  editTripComponent.getElement().querySelector(`.event__rollup-btn`).addEventListener(`click`, () => {
+    replaceEditFormToTripCard();
+    document.addEventListener(`keydown`, onEscDown);
+  });
+
   render(tripListElement, tripComponent.getElement(), RenderPosition.BEFOREEND);
 };
 
