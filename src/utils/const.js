@@ -1,3 +1,4 @@
+import {getRandomInteger, getRandomBoolean} from "./common.js";
 export const MIN_PRICE = 1;
 export const MAX_PRICE = 1000;
 export const MAX_DESCRIPTIONS = 7;
@@ -34,19 +35,6 @@ export const LABEL_OF_TYPES = {
 
 
 export const PHOTO_DATA = `http://picsum.photos/248/152?r=`;
-
-export const getRandomInteger = (a = 0, b = 1) => {
-  const lower = Math.min(a, b);
-  const upper = Math.max(a, b);
-
-  return Math.floor(lower + Math.random() * (upper - lower + 1));
-};
-
-export const getRandomBoolean = () => {
-  return (
-    Boolean(getRandomInteger(0, 1))
-  );
-};
 
 export const SERVISES = [
   {

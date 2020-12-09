@@ -1,4 +1,4 @@
-import {createElement} from "../utils.js";
+import Abstract from "./abstract.js";
 import {getTripRoute, getTripDates, getSumCost} from "../mocks/mocksData.js";
 
 const createTripInfoTemplate = (points) => {
@@ -17,24 +17,13 @@ const createTripInfoTemplate = (points) => {
            </section>`;
 };
 
-export default class InfoTrip {
+export default class InfoTrip extends Abstract {
   constructor(points) {
+    super();
     this._data = points;
-    this._element = null;
   }
 
   getTemplate() {
     return createTripInfoTemplate(this._data);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }

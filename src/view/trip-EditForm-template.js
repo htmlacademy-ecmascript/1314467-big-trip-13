@@ -1,5 +1,5 @@
-import {createElement} from "../utils.js";
-import {CITY_DATA, LABEL_OF_TYPES} from "../const.js";
+import Abstract from "./abstract.js";
+import {CITY_DATA, LABEL_OF_TYPES} from "../utils/const.js";
 
 
 const createCitiesList = () => {
@@ -105,24 +105,35 @@ const createEditFormTemplate = (point) => {
   </li>`;
 };
 
-export default class EditTrip {
+export default class EditTrip extends Abstract {
   constructor(point) {
+    super();
     this._data = point;
-    this._element = null;
+    this._editFormClickHandler = this._editFormClickHandler.bind(this);
+    this._closeEditFormClickHandler = this._closeEditFormClickHandler.bind(this);
   }
 
   getTemplate() {
     return createEditFormTemplate(this._data);
   }
 
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-    return this._element;
+  _editFormClickHandler(evt) {
+    evt.preventDefault();
+    this._callback.openForm();
   }
 
-  removeElement() {
-    this._element = null;
+  _closeEditFormClickHandler() {
+    this._callback.closeForm();
   }
+
+  setEditFormOpenHandler(callback) {
+    this._callback.openForm = callback;
+    this.getElement().querySelector(`form`).addEventListener(`submit`, this._editFormClickHandler);
+  }
+  setEditFormCloseHandler(callback) {
+    this._callback.closeForm = callback;
+    this.getElement().querySelector(`.event__rollup-btn`).addEventListener(`click`, this._closeEditFormClickHandler);
+  }
+
+
 }
