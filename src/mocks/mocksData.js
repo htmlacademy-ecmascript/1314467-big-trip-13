@@ -1,7 +1,18 @@
 import dayjs from "dayjs";
-import {TRIP_TYPES, CITY_DATA, PHOTO_DATA, HOURS_IN_DAY,
-  MINUTES_IN_HOUR, MIN_PRICE, MAX_PRICE, DESCRIPTIONS_DATA, SERVISES} from "../utils/const.js";
-import {getRandomInteger, getRandomBoolean} from "../utils/common.js";
+
+import {
+  TRIP_TYPES,
+  CITY_DATA,
+  PHOTO_DATA,
+  HOURS_IN_DAY,
+  MINUTES_IN_HOUR,
+  MIN_PRICE, MAX_PRICE,
+  DESCRIPTIONS_DATA,
+  SERVISES} from "../utils/const.js";
+
+import {
+  getRandomInteger,
+  getRandomBoolean} from "../utils/common.js";
 
 
 const generateTripType = () => {

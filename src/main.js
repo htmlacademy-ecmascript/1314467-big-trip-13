@@ -1,4 +1,3 @@
-const QUANTITY_PINS = 5;
 import InfoTrip from "./view/info-trip-template.js";
 import NavTrip from "./view/nav-template.js";
 import FiltersTrip from "./view/trip-filters.js";
@@ -8,6 +7,7 @@ import PointTrip from "./view/trip-point-template.js";
 import TripListEmpty from "./view/trip-List-Empty.js";
 import {generateTripPoint} from "./mocks/mocksData.js";
 import {render, RenderPosition, replace} from "./utils/render.js";
+import {QUANTITY_PINS} from "./utils/const.js";
 
 export const points = new Array(QUANTITY_PINS).fill().map(generateTripPoint);
 

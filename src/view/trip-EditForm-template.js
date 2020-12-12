@@ -130,10 +130,9 @@ export default class EditTrip extends Abstract {
     this._callback.openForm = callback;
     this.getElement().querySelector(`form`).addEventListener(`submit`, this._editFormClickHandler);
   }
+
   setEditFormCloseHandler(callback) {
     this._callback.closeForm = callback;
     this.getElement().querySelector(`.event__rollup-btn`).addEventListener(`click`, this._closeEditFormClickHandler);
   }
-
-
 }
