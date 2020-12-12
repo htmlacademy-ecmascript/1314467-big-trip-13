@@ -1,4 +1,3 @@
-const QUANTITY_PINS = 0;
 import InfoTrip from "./view/info-trip-template.js";
 import NavTrip from "./view/nav-template.js";
 import FiltersTrip from "./view/trip-filters.js";
@@ -7,7 +6,8 @@ import EditTrip from "./view/trip-EditForm-template.js";
 import PointTrip from "./view/trip-point-template.js";
 import TripListEmpty from "./view/trip-List-Empty.js";
 import {generateTripPoint} from "./mocks/mocksData.js";
-import {render, RenderPosition} from "./utils.js";
+import {render, RenderPosition, replace} from "./utils/render.js";
+import {QUANTITY_PINS} from "./utils/const.js";
 
 export const points = new Array(QUANTITY_PINS).fill().map(generateTripPoint);
 
@@ -22,11 +22,11 @@ const renderTripPoint = (tripListElement, tripPoint) => {
   const editTripComponent = new EditTrip(tripPoint);
 
   const replaceTripPointToEditForm = () => {
-    tripListElement.replaceChild(editTripComponent.getElement(), tripComponent.getElement());
+    replace(editTripComponent.getElement(), tripComponent.getElement());
   };
 
   const replaceEditFormToTripCard = () => {
-    tripListElement.replaceChild(tripComponent.getElement(), editTripComponent.getElement());
+    replace(tripComponent.getElement(), editTripComponent.getElement());
   };
 
   const onEscDown = (evt) => {
@@ -37,18 +37,17 @@ const renderTripPoint = (tripListElement, tripPoint) => {
     }
   };
 
-  tripComponent.getElement().querySelector(`.event__rollup-btn`).addEventListener(`click`, () => {
+  tripComponent.setEditClickOpenHandler(() => {
     replaceTripPointToEditForm();
     document.addEventListener(`keydown`, onEscDown);
   });
 
-  editTripComponent.getElement().querySelector(`form`).addEventListener(`submit`, (evt) => {
-    evt.preventDefault();
+  editTripComponent.setEditFormOpenHandler(() => {
     replaceEditFormToTripCard();
     document.addEventListener(`keydown`, onEscDown);
   });
 
-  editTripComponent.getElement().querySelector(`.event__rollup-btn`).addEventListener(`click`, () => {
+  editTripComponent.setEditFormCloseHandler(() => {
     replaceEditFormToTripCard();
     document.addEventListener(`keydown`, onEscDown);
   });

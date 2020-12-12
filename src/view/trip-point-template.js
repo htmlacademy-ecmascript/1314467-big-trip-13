@@ -1,5 +1,5 @@
-import {createElement} from "../utils.js";
-import {LABEL_OF_TYPES} from "../const.js";
+import Abstract from "./abstract.js";
+import {LABEL_OF_TYPES} from "../utils/const.js";
 
 const createOffer = (offers) => {
 
@@ -58,24 +58,24 @@ const createPointTemplate = (point) => {
          </li>`;
 };
 
-export default class PointTrip {
+export default class PointTrip extends Abstract {
   constructor(point) {
+    super();
     this._data = point;
-    this._element = null;
+    this._editClickHandler = this._editClickHandler.bind(this);
   }
 
   getTemplate() {
     return createPointTemplate(this._data);
   }
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
 
-    return this._element;
+  _editClickHandler() {
+    this._callback.editClick();
   }
 
-  removeElement() {
-    this._element = null;
+  setEditClickOpenHandler(callback) {
+    this._callback.editClick = callback;
+    this.getElement().querySelector(`.event__rollup-btn`).addEventListener(`click`, this._editClickHandler);
   }
 }
+

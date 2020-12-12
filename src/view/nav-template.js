@@ -1,4 +1,4 @@
-import {createElement} from "../utils.js";
+import Abstract from "./abstract.js";
 
 const createNavTemplate = () => {
   return `<nav class="trip-controls__trip-tabs  trip-tabs">
@@ -7,20 +7,9 @@ const createNavTemplate = () => {
           </nav>`;
 };
 
-export default class NavTrip {
-  constructor() {
-    this._element = null;
-  }
+export default class NavTrip extends Abstract {
   getTemplate() {
     return createNavTemplate();
   }
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-    return this._element;
-  }
-  removeElement() {
-    this._element = null;
-  }
+
 }

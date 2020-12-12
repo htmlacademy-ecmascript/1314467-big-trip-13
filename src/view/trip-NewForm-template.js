@@ -1,4 +1,4 @@
-import {createElement} from "../utils.js";
+import Abstract from "./abstract.js";
 import {CITY_DATA, LABEL_OF_TYPES} from "../const.js";
 
 
@@ -102,24 +102,13 @@ const createNewFormTemplate = (point) => {
   </li>`;
 };
 
-export default class EditNewTrip {
+export default class EditNewTrip extends Abstract {
   constructor(point) {
+    super();
     this._data = point;
-    this._element = null;
   }
 
   getTemplate() {
     return createNewFormTemplate(this._data);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }
