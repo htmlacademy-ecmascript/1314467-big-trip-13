@@ -1,8 +1,11 @@
-import {getRandomInteger, getRandomBoolean} from "./common.js";
+import {
+  getRandomInteger,
+  getRandomBoolean} from "./common.js";
+
 export const MIN_PRICE = 1;
 export const MAX_PRICE = 1000;
 export const MAX_DESCRIPTIONS = 7;
-export const QUANTITY_PINS = 5;
+export const QUANTITY_PINS = 7;
 export const HOURS_IN_DAY = 24;
 export const MINUTES_IN_HOUR = 60;
 export const TRIP_TYPES = [`Taxi`, `Bus`, `Train`, `Ship`, `Transport`, `Drive`, `Flight`, `Check-in`, `Sightseeing`, `Restaurant`];
@@ -81,4 +84,9 @@ export const SERVISES = [
     isChecked: getRandomBoolean()
   }
 ];
+
+export const Mode = {
+  DEFAULT: `DEFAULT`,
+  EDITING: `EDITING`
+};
 

@@ -63,6 +63,7 @@ export default class PointTrip extends Abstract {
     super();
     this._data = point;
     this._editClickHandler = this._editClickHandler.bind(this);
+    this._favoriteClickHandler = this._favoriteClickHandler.bind(this);
   }
 
   getTemplate() {
@@ -73,9 +74,18 @@ export default class PointTrip extends Abstract {
     this._callback.editClick();
   }
 
+  _favoriteClickHandler() {
+    this._callback.favoriteClick();
+  }
+
   setEditClickOpenHandler(callback) {
     this._callback.editClick = callback;
     this.getElement().querySelector(`.event__rollup-btn`).addEventListener(`click`, this._editClickHandler);
+  }
+
+  setFavoriteClickHandler(callback) {
+    this._callback.favoriteClick = callback;
+    this.getElement().querySelector(`.event__favorite-btn`).addEventListener(`click`, this._favoriteClickHandler);
   }
 }
 
