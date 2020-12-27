@@ -90,3 +90,9 @@ export const Mode = {
   EDITING: `EDITING`
 };
 
+export const SortMode = {
+  DEFAULT: `sort-day`,
+  TIME: `sort-time`,
+  PRICE: `sort-price`,
+};
+

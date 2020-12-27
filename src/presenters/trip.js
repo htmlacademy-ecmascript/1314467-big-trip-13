@@ -10,7 +10,14 @@ import {
   render,
   RenderPosition} from "../utils/render.js";
 
-import {updateItem} from "../utils/common.js";
+import {
+  updateItem,
+  sortPointDate,
+  sortPointPrice,
+  sortPointTime
+} from "../utils/common.js";
+
+import {SortMode} from "../utils/const.js";
 
 const sortTripComponent = new SortTrip();
 const tripListEmptyComponent = new TripListEmpty();
@@ -26,18 +33,21 @@ export default class Trip {
 
     this._pointPresenter = {};
     this._infoTrip = null;
+    this._currentSortMode = SortMode.DEFAULT;
 
     this._handleTripChange = this._handleTripChange.bind(this);
     this._handleModeChange = this._handleModeChange.bind(this);
+    this._handleSortTypeChange = this._handleSortTypeChange.bind(this);
   }
 
   init(tripCards) {
     this._tripCards = tripCards.slice();
+    this._sourcedCards = tripCards.slice();
 
     this._infoTrip = new InfoTrip(tripCards);
 
     render(this._tripContainer, tripList, RenderPosition.BEFOREEND);
-    this._renderTripList();
+    this._renderAll();
   }
 
   _renderInfoTrip() {
@@ -54,6 +64,35 @@ export default class Trip {
 
   _renderSortTrip() {
     render(this._tripContainer, sortTripComponent, RenderPosition.AFTERBEGIN);
+    sortTripComponent.setSortTypeChangeHandler(this._handleSortTypeChange);
+  }
+
+  _sortTasks(sortType) {
+    switch (sortType) {
+      case SortMode.DEFAULT:
+        this._tripCards.sort(sortPointDate);
+        break;
+      case SortMode.PRICE:
+        this._tripCards.sort(sortPointPrice);
+        break;
+      case SortMode.TIME:
+        this._tripCards.sort(sortPointTime);
+        break;
+      default:
+        this._tripCards = this._sourcedCards.slice();
+    }
+
+    this._currentSortType = sortType;
+  }
+
+  _handleSortTypeChange(sortType) {
+    if (this._currentSortType === sortType) {
+      return;
+    }
+
+    this._sortTasks(sortType);
+    this._clearTripList();
+    this._renderTripPoints();
   }
 
   _rendertripListEmpty() {
@@ -93,7 +132,7 @@ export default class Trip {
   }
 
 
-  _renderTripList() {
+  _renderAll() {
     this._renderInfoTrip();
     this._renderNavTrip();
     this._renderFiltersElement();
