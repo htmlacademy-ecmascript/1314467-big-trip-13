@@ -50,9 +50,9 @@ export const replace = (newChild, oldChild) => {
 
   const parent = oldChild.parentElement;
 
-  // if (parent === null || newChild === null || oldChild === null) {
-  //   throw new Error(`Can't replace unexiting elements`);
-  // }
+  if (parent === null || newChild === null || oldChild === null) {
+    throw new Error(`Can't replace unexiting elements`);
+  }
 
   parent.replaceChild(newChild, oldChild);
 };

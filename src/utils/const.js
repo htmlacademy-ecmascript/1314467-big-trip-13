@@ -91,7 +91,7 @@ export const Mode = {
 };
 
 export const SortMode = {
-  DEFAULT: `sort-day`,
+  DAY: `sort-day`,
   TIME: `sort-time`,
   PRICE: `sort-price`,
 };

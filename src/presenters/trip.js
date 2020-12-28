@@ -30,10 +30,11 @@ export default class Trip {
     this._tripContainer = tripContainer;
     this._infoContainer = infoContainer;
     this._tripMenuElement = tripMenuElement;
+    this._currentSortMode = SortMode.PRICE;
 
     this._pointPresenter = {};
     this._infoTrip = null;
-    this._currentSortMode = SortMode.DEFAULT;
+
 
     this._handleTripChange = this._handleTripChange.bind(this);
     this._handleModeChange = this._handleModeChange.bind(this);
@@ -47,6 +48,7 @@ export default class Trip {
     this._infoTrip = new InfoTrip(tripCards);
 
     render(this._tripContainer, tripList, RenderPosition.BEFOREEND);
+    this._tripCards.sort(sortPointPrice);
     this._renderAll();
   }
 
@@ -69,7 +71,7 @@ export default class Trip {
 
   _sortTasks(sortType) {
     switch (sortType) {
-      case SortMode.DEFAULT:
+      case SortMode.DAY:
         this._tripCards.sort(sortPointDate);
         break;
       case SortMode.PRICE:
@@ -81,7 +83,6 @@ export default class Trip {
       default:
         this._tripCards = this._sourcedCards.slice();
     }
-
     this._currentSortType = sortType;
   }
 

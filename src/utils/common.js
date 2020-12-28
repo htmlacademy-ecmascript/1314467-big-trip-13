@@ -26,14 +26,15 @@ export function updateItem(items, update) {
   ];
 }
 
+
 export const sortPointDate = (pointA, pointB) => {
-  return pointA.time.begin.valueOf() - pointB.time.begin.valueOf();
+  return pointA.time.day - pointB.time.day;
 };
 
 export const sortPointPrice = (pointA, pointB) => {
-  return pointB.price - pointA.price;
+  return pointA.price - pointB.price;
 };
 
 export const sortPointTime = (pointA, pointB) => {
-  return dayjs(pointA.time.begin - pointA.time.end).diff(dayjs(pointB.time.begin - pointB.time.end));
+  return (dayjs(pointA.time.end - pointA.time.begin)).diff(dayjs(pointB.time.end - pointB.time.begin));
 };
