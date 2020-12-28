@@ -116,7 +116,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const points = new Array(_utils_const_js__WEBPACK_IMPORTED_MODULE_1__["QUANTITY_PINS"]).fill().map(_mocks_mocksData_js__WEBPACK_IMPORTED_MODULE_0__["generateTripPoint"]);
-console.log(points);
 
 const tripInfoElement = document.querySelector(`.trip-main`);
 const tripMenuElement = tripInfoElement.querySelector(`.trip-controls`);
@@ -319,13 +318,13 @@ class Point {
     const prevTripComponent = this._tripComponent;
     const prevTripEditComponent = this._tripEditComponent;
 
+
     this._tripComponent = new _view_trip_point_template_js__WEBPACK_IMPORTED_MODULE_1__["default"](tripCard);
     this._tripEditComponent = new _view_trip_EditForm_template_js__WEBPACK_IMPORTED_MODULE_0__["default"](tripCard);
 
-    this._tripComponent.setEditClickOpenHandler(this._editClickHandler);
-    this._tripEditComponent.setEditFormOpenHandler(this._editFormClickHandler);
-    this._tripEditComponent.setEditFormCloseHandler(this._closeEditFormClickHandler);
-    this._tripComponent.setFavoriteClickHandler(this._favoriteClickHandler);
+
+    this._renderEventListeners();
+
 
     if (prevTripComponent === null || prevTripEditComponent === null) {
       Object(_utils_render_js__WEBPACK_IMPORTED_MODULE_2__["render"])(this._tripListContainer, this._tripComponent, _utils_render_js__WEBPACK_IMPORTED_MODULE_2__["RenderPosition"].BEFOREEND);
@@ -342,6 +341,12 @@ class Point {
 
     Object(_utils_render_js__WEBPACK_IMPORTED_MODULE_2__["remove"])(prevTripComponent);
     Object(_utils_render_js__WEBPACK_IMPORTED_MODULE_2__["remove"])(prevTripEditComponent);
+  }
+  _renderEventListeners() {
+    this._tripComponent.setEditClickOpenHandler(this._editClickHandler);
+    this._tripEditComponent.setEditFormOpenHandler(this._editFormClickHandler);
+    this._tripEditComponent.setEditFormCloseHandler(this._closeEditFormClickHandler);
+    this._tripComponent.setFavoriteClickHandler(this._favoriteClickHandler);
   }
 
   destroy() {
@@ -452,10 +457,11 @@ class Trip {
     this._tripContainer = tripContainer;
     this._infoContainer = infoContainer;
     this._tripMenuElement = tripMenuElement;
+    this._currentSortMode = _utils_const_js__WEBPACK_IMPORTED_MODULE_9__["SortMode"].PRICE;
 
     this._pointPresenter = {};
     this._infoTrip = null;
-    this._currentSortMode = _utils_const_js__WEBPACK_IMPORTED_MODULE_9__["SortMode"].DEFAULT;
+
 
     this._handleTripChange = this._handleTripChange.bind(this);
     this._handleModeChange = this._handleModeChange.bind(this);
@@ -469,6 +475,7 @@ class Trip {
     this._infoTrip = new _view_info_trip_template_js__WEBPACK_IMPORTED_MODULE_3__["default"](tripCards);
 
     Object(_utils_render_js__WEBPACK_IMPORTED_MODULE_7__["render"])(this._tripContainer, tripList, _utils_render_js__WEBPACK_IMPORTED_MODULE_7__["RenderPosition"].BEFOREEND);
+    this._tripCards.sort(_utils_common_js__WEBPACK_IMPORTED_MODULE_8__["sortPointPrice"]);
     this._renderAll();
   }
 
@@ -491,7 +498,7 @@ class Trip {
 
   _sortTasks(sortType) {
     switch (sortType) {
-      case _utils_const_js__WEBPACK_IMPORTED_MODULE_9__["SortMode"].DEFAULT:
+      case _utils_const_js__WEBPACK_IMPORTED_MODULE_9__["SortMode"].DAY:
         this._tripCards.sort(_utils_common_js__WEBPACK_IMPORTED_MODULE_8__["sortPointDate"]);
         break;
       case _utils_const_js__WEBPACK_IMPORTED_MODULE_9__["SortMode"].PRICE:
@@ -503,7 +510,6 @@ class Trip {
       default:
         this._tripCards = this._sourcedCards.slice();
     }
-
     this._currentSortType = sortType;
   }
 
@@ -613,16 +619,17 @@ function updateItem(items, update) {
   ];
 }
 
+
 const sortPointDate = (pointA, pointB) => {
-  return pointA.time.begin.valueOf() - pointB.time.begin.valueOf();
+  return pointA.time.day - pointB.time.day;
 };
 
 const sortPointPrice = (pointA, pointB) => {
-  return pointB.price - pointA.price;
+  return pointA.price - pointB.price;
 };
 
 const sortPointTime = (pointA, pointB) => {
-  return dayjs__WEBPACK_IMPORTED_MODULE_0___default()(pointA.time.begin - pointA.time.end).diff(dayjs__WEBPACK_IMPORTED_MODULE_0___default()(pointB.time.begin - pointB.time.end));
+  return (dayjs__WEBPACK_IMPORTED_MODULE_0___default()(pointA.time.end - pointA.time.begin)).diff(dayjs__WEBPACK_IMPORTED_MODULE_0___default()(pointB.time.end - pointB.time.begin));
 };
 
 
@@ -743,7 +750,7 @@ const Mode = {
 };
 
 const SortMode = {
-  DEFAULT: `sort-day`,
+  DAY: `sort-day`,
   TIME: `sort-time`,
   PRICE: `sort-price`,
 };
@@ -820,9 +827,9 @@ const replace = (newChild, oldChild) => {
 
   const parent = oldChild.parentElement;
 
-  // if (parent === null || newChild === null || oldChild === null) {
-  //   throw new Error(`Can't replace unexiting elements`);
-  // }
+  if (parent === null || newChild === null || oldChild === null) {
+    throw new Error(`Can't replace unexiting elements`);
+  }
 
   parent.replaceChild(newChild, oldChild);
 };
@@ -1332,7 +1339,7 @@ __webpack_require__.r(__webpack_exports__);
 const createTripSortTemplate = () => {
   return `<form class="trip-events__trip-sort  trip-sort" action="#" method="get">
     <div class="trip-sort__item  trip-sort__item--day">
-      <input id="sort-day" class="trip-sort__input  visually-hidden" type="radio" name="trip-sort" value="sort-day" data-sort-type="${_utils_const_js__WEBPACK_IMPORTED_MODULE_1__["SortMode"].DEFAULT}">
+      <input id="sort-day" class="trip-sort__input  visually-hidden" type="radio" name="trip-sort" value="sort-day" data-sort-type="${_utils_const_js__WEBPACK_IMPORTED_MODULE_1__["SortMode"].DAY}">
       <label class="trip-sort__btn" for="sort-day">Day</label>
     </div>
 
