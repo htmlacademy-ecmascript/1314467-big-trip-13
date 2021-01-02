@@ -1,4 +1,4 @@
-import dayjs from "dayjs";
+import {HOURS_IN_DAY, MINUTES_IN_HOUR} from "../utils/const.js";
 export const getRandomInteger = (a = 0, b = 1) => {
   const lower = Math.min(a, b);
   const upper = Math.max(a, b);
@@ -35,6 +35,14 @@ export const sortPointPrice = (pointA, pointB) => {
   return pointA.price - pointB.price;
 };
 
+
 export const sortPointTime = (pointA, pointB) => {
-  return (dayjs(pointA.time.end - pointA.time.begin)).diff(dayjs(pointB.time.end - pointB.time.begin));
+  const hoursA = pointA.time.end.diff(pointA.time.begin, `hour`) % HOURS_IN_DAY;
+  const minutesA = pointA.time.end.diff(pointA.time.begin, `minute`) % MINUTES_IN_HOUR;
+  const hoursB = pointB.time.end.diff(pointB.time.begin, `hour`) % HOURS_IN_DAY;
+  const minutesB = pointB.time.end.diff(pointB.time.begin, `minute`) % MINUTES_IN_HOUR;
+  const diff1 = hoursA > 0 ? hoursA * 60 + minutesA : minutesA;
+  const diff2 = hoursB > 0 ? hoursB * 60 + minutesB : minutesB;
+  return diff1 - diff2;
+
 };

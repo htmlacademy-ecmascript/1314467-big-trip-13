@@ -32,14 +32,11 @@ export default class Point {
 
     const prevTripComponent = this._tripComponent;
     const prevTripEditComponent = this._tripEditComponent;
-
-
     this._tripComponent = new PointTrip(tripCard);
     this._tripEditComponent = new EditTrip(tripCard);
 
 
     this._renderEventListeners();
-
 
     if (prevTripComponent === null || prevTripEditComponent === null) {
       render(this._tripListContainer, this._tripComponent, RenderPosition.BEFOREEND);
@@ -57,6 +54,7 @@ export default class Point {
     remove(prevTripComponent);
     remove(prevTripEditComponent);
   }
+
   _renderEventListeners() {
     this._tripComponent.setEditClickOpenHandler(this._editClickHandler);
     this._tripEditComponent.setEditFormOpenHandler(this._editFormClickHandler);
