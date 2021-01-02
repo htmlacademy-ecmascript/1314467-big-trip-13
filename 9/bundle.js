@@ -317,14 +317,11 @@ class Point {
 
     const prevTripComponent = this._tripComponent;
     const prevTripEditComponent = this._tripEditComponent;
-
-
     this._tripComponent = new _view_trip_point_template_js__WEBPACK_IMPORTED_MODULE_1__["default"](tripCard);
     this._tripEditComponent = new _view_trip_EditForm_template_js__WEBPACK_IMPORTED_MODULE_0__["default"](tripCard);
 
 
     this._renderEventListeners();
-
 
     if (prevTripComponent === null || prevTripEditComponent === null) {
       Object(_utils_render_js__WEBPACK_IMPORTED_MODULE_2__["render"])(this._tripListContainer, this._tripComponent, _utils_render_js__WEBPACK_IMPORTED_MODULE_2__["RenderPosition"].BEFOREEND);
@@ -342,6 +339,7 @@ class Point {
     Object(_utils_render_js__WEBPACK_IMPORTED_MODULE_2__["remove"])(prevTripComponent);
     Object(_utils_render_js__WEBPACK_IMPORTED_MODULE_2__["remove"])(prevTripEditComponent);
   }
+
   _renderEventListeners() {
     this._tripComponent.setEditClickOpenHandler(this._editClickHandler);
     this._tripEditComponent.setEditFormOpenHandler(this._editFormClickHandler);
@@ -589,8 +587,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "sortPointDate", function() { return sortPointDate; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "sortPointPrice", function() { return sortPointPrice; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "sortPointTime", function() { return sortPointTime; });
-/* harmony import */ var dayjs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! dayjs */ "./node_modules/dayjs/dayjs.min.js");
-/* harmony import */ var dayjs__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(dayjs__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _utils_const_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/const.js */ "./src/utils/const.js");
 
 const getRandomInteger = (a = 0, b = 1) => {
   const lower = Math.min(a, b);
@@ -628,8 +625,16 @@ const sortPointPrice = (pointA, pointB) => {
   return pointA.price - pointB.price;
 };
 
+
 const sortPointTime = (pointA, pointB) => {
-  return (dayjs__WEBPACK_IMPORTED_MODULE_0___default()(pointA.time.end - pointA.time.begin)).diff(dayjs__WEBPACK_IMPORTED_MODULE_0___default()(pointB.time.end - pointB.time.begin));
+  const hoursA = pointA.time.end.diff(pointA.time.begin, `hour`) % _utils_const_js__WEBPACK_IMPORTED_MODULE_0__["HOURS_IN_DAY"];
+  const minutesA = pointA.time.end.diff(pointA.time.begin, `minute`) % _utils_const_js__WEBPACK_IMPORTED_MODULE_0__["MINUTES_IN_HOUR"];
+  const hoursB = pointB.time.end.diff(pointB.time.begin, `hour`) % _utils_const_js__WEBPACK_IMPORTED_MODULE_0__["HOURS_IN_DAY"];
+  const minutesB = pointB.time.end.diff(pointB.time.begin, `minute`) % _utils_const_js__WEBPACK_IMPORTED_MODULE_0__["MINUTES_IN_HOUR"];
+  const diff1 = hoursA > 0 ? hoursA * 60 + minutesA : minutesA;
+  const diff2 = hoursB > 0 ? hoursB * 60 + minutesB : minutesB;
+  return diff1 - diff2;
+
 };
 
 
