@@ -119,7 +119,7 @@ export default class EditTrip extends Abstract {
 
   _editFormClickHandler(evt) {
     evt.preventDefault();
-    this._callback.openForm();
+    this._callback.openForm(this._data);
   }
 
   _closeEditFormClickHandler() {

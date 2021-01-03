@@ -111,10 +111,13 @@ const getTripRoute = (places) => {
   return `${cities[0]} — ${cities[1]} — ${cities[2]}`;
 };
 
+const generateId = () => Date.now() + parseInt(Math.random() * 10000, 10);
+
 
 const generateTripPoint = () => {
 
   return {
+    id: generateId(),
     tripType: generateTripType(),
     destination: generateDestination(),
     time: generateTime(),
