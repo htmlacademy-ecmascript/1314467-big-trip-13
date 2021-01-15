@@ -21,23 +21,6 @@ Sed blandit, eros vel aliquam faucibus, purus ex euismod diam, eu luctus nunc an
 Sed sed nisi sed augue convallis suscipit in sed felis. Aliquam erat volutpat.
 Nunc fermentum tortor ac porta dapibus. In rutrum ac purus sit amet tempus.`];
 
-const TO = ` to `;
-const IN = ` in `;
-
-export const LABEL_OF_TYPES = {
-  'Taxi': TO,
-  'Bus': TO,
-  'Train': TO,
-  'Ship': TO,
-  'Transport': TO,
-  'Drive': TO,
-  'Flight': TO,
-  'Sightseeing': IN,
-  'Restaurant': IN,
-  'Check-in': IN
-};
-
-
 export const PHOTO_DATA = `http://picsum.photos/248/152?r=`;
 
 export const SERVISES = [

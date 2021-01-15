@@ -1,5 +1,6 @@
-import Abstract from "./abstract.js";
-import {CITY_DATA, LABEL_OF_TYPES} from "../utils/const.js";
+import Smart from "./smart.js";
+import {CITY_DATA, TRIP_TYPES} from "../utils/const.js";
+import {getRandomDescriptions, getRandomServices} from "../mocks/mocksData.js";
 
 
 const createCitiesList = () => {
@@ -24,8 +25,21 @@ const createOffers = (offers) => {
   }).join(``);
 };
 
-const createEditFormTemplate = (point) => {
-  const {tripType, destination, offers, descriptions, time, price, photos} = point;
+const createAvailableTypes = (selectedType) => {
+  return TRIP_TYPES.map((type) => {
+    const isChecked = type === selectedType;
+
+    return `
+  <div class="event__type-item">
+    <input id="event-type-${type.toLowerCase()}-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="${type.toLowerCase()}" ${isChecked ? `checked` : ``}>
+    <label class="event__type-label  event__type-label--${type.toLowerCase()}" for="event-type-${type.toLowerCase()}-1">${type.toLowerCase()}</label>
+  </div>`;
+  }).join(``);
+};
+
+
+const createEditFormTemplate = (data) => {
+  const {tripType, destination, offers, descriptions, time, price, photos} = data;
 
   return `<li class="trip-events__item"> 
    <form class="event event--edit" action="#" method="post">
@@ -43,8 +57,7 @@ const createEditFormTemplate = (point) => {
             <legend class="visually-hidden">Event type</legend>
             
             <div class="event__type-item">
-              <input id="event-type-${tripType.toLowerCase()}-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="${tripType.toLowerCase()}">
-              <label class="event__type-label  event__type-label--${tripType.toLowerCase()}" for="event-type-${tripType.toLowerCase()}-1">${tripType}</label>
+            ${createAvailableTypes(tripType)}
             </div>
           </fieldset>
         </div>
@@ -54,7 +67,7 @@ const createEditFormTemplate = (point) => {
         <label class="event__label  event__type-output" for="event-destination-1">
         ${tripType}
         </label>
-        <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${LABEL_OF_TYPES[tripType]}${destination}" list="destination-list-1">
+        <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${destination ? destination : ``}" list="destination-list-1">
         <datalist id="destination-list-1">
         ${createCitiesList()}
         </datalist>
@@ -105,21 +118,54 @@ const createEditFormTemplate = (point) => {
   </li>`;
 };
 
-export default class EditTrip extends Abstract {
+export default class EditTrip extends Smart {
   constructor(point) {
     super();
-    this._data = point;
+    this._data = EditTrip.parcePointToData(point);
     this._editFormClickHandler = this._editFormClickHandler.bind(this);
     this._closeEditFormClickHandler = this._closeEditFormClickHandler.bind(this);
+    this._typeChangeHandler = this._typeChangeHandler.bind(this);
+    this._destinationChangeHandler = this._destinationChangeHandler.bind(this);
+    this._setInnerHandlers();
+    this.restoreHandlers();
   }
 
   getTemplate() {
     return createEditFormTemplate(this._data);
   }
 
+  _destinationChangeHandler(evt) {
+    evt.preventDefault();
+    this.updateData({
+      destination: evt.target.value,
+      descriptions: getRandomDescriptions()
+    });
+  }
+  _typeChangeHandler(evt) {
+    evt.preventDefault();
+    this.updateData({
+      tripType: evt.target.value,
+      offers: getRandomServices()
+    });
+  }
+
+  _setInnerHandlers() {
+    this.getElement()
+      .querySelector(`.event__input--destination`)
+      .addEventListener(`change`, this._destinationChangeHandler);
+    this.getElement()
+      .querySelector(`.event__type-list`).addEventListener(`change`, this._typeChangeHandler);
+  }
+
+  restoreHandlers() {
+    this._setInnerHandlers();
+    this.setEditFormOpenHandler(this._callback.openForm);
+    this.setEditFormCloseHandler(this._callback.closeForm);
+  }
+
   _editFormClickHandler(evt) {
     evt.preventDefault();
-    this._callback.openForm(this._data);
+    this._callback.openForm(EditTrip.parseDataToPoint(this._data));
   }
 
   _closeEditFormClickHandler() {
@@ -134,5 +180,13 @@ export default class EditTrip extends Abstract {
   setEditFormCloseHandler(callback) {
     this._callback.closeForm = callback;
     this.getElement().querySelector(`.event__rollup-btn`).addEventListener(`click`, this._closeEditFormClickHandler);
+  }
+
+  static parcePointToData(point) {
+    return Object.assign({}, point);
+  }
+
+  static parseDataToPoint(data) {
+    return Object.assign({}, data);
   }
 }
