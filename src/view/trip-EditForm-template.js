@@ -119,9 +119,9 @@ const createEditFormTemplate = (data) => {
 };
 
 export default class EditTrip extends Smart {
-  constructor(point) {
+  constructor(data) {
     super();
-    this._data = EditTrip.parcePointToData(point);
+    this._data = EditTrip.parcePointToData(data);
     this._editFormClickHandler = this._editFormClickHandler.bind(this);
     this._closeEditFormClickHandler = this._closeEditFormClickHandler.bind(this);
     this._typeChangeHandler = this._typeChangeHandler.bind(this);
@@ -141,6 +141,7 @@ export default class EditTrip extends Smart {
       descriptions: getRandomDescriptions()
     });
   }
+
   _typeChangeHandler(evt) {
     evt.preventDefault();
     this.updateData({
