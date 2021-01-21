@@ -73,7 +73,7 @@ const getDescriptions = () => {
 };
 
 
-const getRandomDescriptions = () => {
+export const getRandomDescriptions = () => {
   const emptyArrOfDescriptions = new Array(getRandomInteger(0, 5)).fill(undefined).map(getDescriptions);
 
   return emptyArrOfDescriptions.filter((item, index) => emptyArrOfDescriptions.indexOf(item) === index);
@@ -87,7 +87,7 @@ const getServices = () =>{
 };
 
 
-const getRandomServices = () => {
+export const getRandomServices = () => {
   const arrEmptyServices = new Array(getRandomInteger(0, 5)).fill(undefined).map(getServices);
 
   return arrEmptyServices.filter((item, index) => arrEmptyServices.indexOf(item) === index);

@@ -1,5 +1,4 @@
 import Abstract from "./abstract.js";
-import {LABEL_OF_TYPES} from "../utils/const.js";
 
 const createOffer = (offers) => {
 
@@ -13,7 +12,6 @@ const createOffer = (offers) => {
   }).join(`\n`);
 };
 
-
 const createPointTemplate = (point) => {
   const {tripType, destination, time, offers, price, isFavorite} = point;
   const offerTemplate = createOffer(offers);
@@ -26,7 +24,7 @@ const createPointTemplate = (point) => {
                 <img class="event__type-icon" width="42" height="42" src="img/icons/${tripType.toLowerCase()}.png" alt="Event type icon">
               </div>
 
-              <h3 class="event__title">${tripType}${LABEL_OF_TYPES[tripType]}${destination}</h3>
+              <h3 class="event__title">${tripType} ${destination}</h3>
               <div class="event__schedule">
                 <p class="event__time">
                   <time class="event__start-time" datetime="${time.begin.format(`HH:mm`)}">${time.begin.format(`HH:mm`)}</time>
